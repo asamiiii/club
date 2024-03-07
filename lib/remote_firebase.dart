@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:club/dummy_data.dart';
 import 'package:club/models/announ_model.dart';
@@ -12,7 +11,7 @@ import 'package:flutter/foundation.dart';
 class FirebaseHelper {
   // static String? collectionName;
 
- static CollectionReference getInvoiceCollection() {
+  static CollectionReference getInvoiceCollection() {
     return FirebaseFirestore.instance
         .collection('Items')
         .withConverter<ItemModel>(
@@ -21,11 +20,9 @@ class FirebaseHelper {
         );
   }
 
-  
-
-    static Future getItemsFromFirestore() async{
-      DummyData.chocoList.clear();
-     var querySnapshot =await getInvoiceCollection().get();
+  static Future getItemsFromFirestore() async {
+    DummyData.chocoList.clear();
+    var querySnapshot = await getInvoiceCollection().get();
     // Get data from docs and convert map to List
     for (var element in querySnapshot.docs) {
       DummyData.chocoList.add(element.data() as ItemModel);
@@ -35,5 +32,22 @@ class FirebaseHelper {
     // handleBranchesItemsList(branchName: branch);
     // return querySnapshot;
   }
+  //* ------ Announcment Services ------- *//
 
+  static CollectionReference getReqtCollection() {
+    return FirebaseFirestore.instance
+        .collection('requests')
+        .withConverter<Requests>(
+          fromFirestore: (snapshot, _) => Requests.fromJson(snapshot.data()!),
+          toFirestore: (task, _) => task.toJson(),
+        );
+  }
+
+  static Future<String> addReqToFirebase({required Requests? req}) async {
+    var collection = getReqtCollection();
+    var docRef = collection.doc();
+    req?.id = docRef.id;
+    await docRef.set(req);
+    return docRef.id;
+  }
 }

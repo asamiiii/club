@@ -7,8 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class Home extends StatefulWidget {
-  String? branchName;
-  Home({super.key, this.branchName});
+  const Home({super.key,});
 
   @override
   State<Home> createState() => _HomeState();
@@ -41,87 +40,81 @@ class _HomeState extends State<Home> {
         onRefresh: () async {
           var provider = context.read<MainProvider>();
           await provider.getItems();
-         
         },
-        child: WillPopScope(
-          onWillPop: () async {
-            return false;
-          },
-          child: Scaffold(
-            // appBar: AppBar(),
-
-            body: Consumer<MainProvider>(
-                builder: (context, provider, child) => provider.isLoading ==
-                        false
-                    ? Padding(
-                        padding:
-                            const EdgeInsets.only(left: 10, right: 10, top: 50),
-                        child: Column(
-                          children: [
-                            // Image.asset(
-                            //   ImagePath.logo,
-                            //   fit: BoxFit.fill,
-                            //   height: 50,
-                            //   width: 350,
-                            // ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-
-                            // CategoryNavigator(
-                            //   highlightBackgroundColor: golden,
-                            //   unselectedTextStyle:responcive.isMobile? Theme.of(context).textTheme.bodySmall?.copyWith(color: mainColor):Theme.of(context).textTheme.bodyLarge?.copyWith(color: mainColor,fontSize: 15) ,
-                            //   highlightTextStyle: responcive.isMobile? Theme.of(context).textTheme.bodySmall?.copyWith(color: mainColor):Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black,fontSize: 17) ,
-                            //   labels: provider.categoryList,
-                            //   defaultActiveItem: 0,
-                            //   onChange: (index) {
-                            //     provider.setSelectedCategory(
-                            //         categoryTxt: provider.categoryList![index],
-                            //         branch: widget.branchName);
-                            //     debugPrint('${DummyData.filteredChocoList}');
-                            //     // setState(() {});
-                            //   },
-                            // ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            DummyData.filteredChocoList.isNotEmpty
-                                ? Expanded(
-                                    child: GridView.builder(
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) => Item(
-                                          index: index,
-                                          chocoItem: DummyData
-                                              .filteredChocoList[index]),
-                                      itemCount:
-                                          DummyData.filteredChocoList.length,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: itemsCount,
-                                        mainAxisSpacing: 10,
-                                        childAspectRatio: 0.7,
-                                        crossAxisSpacing: 10,
-                                      ),
+        child: Scaffold(
+          // appBar: AppBar(),
+        
+          body: Consumer<MainProvider>(
+              builder: (context, provider, child) => provider.isLoading ==
+                      false
+                  ? Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 50),
+                      child: Column(
+                        children: [
+                          // Image.asset(
+                          //   ImagePath.logo,
+                          //   fit: BoxFit.fill,
+                          //   height: 50,
+                          //   width: 350,
+                          // ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+        
+                          // CategoryNavigator(
+                          //   highlightBackgroundColor: golden,
+                          //   unselectedTextStyle:responcive.isMobile? Theme.of(context).textTheme.bodySmall?.copyWith(color: mainColor):Theme.of(context).textTheme.bodyLarge?.copyWith(color: mainColor,fontSize: 15) ,
+                          //   highlightTextStyle: responcive.isMobile? Theme.of(context).textTheme.bodySmall?.copyWith(color: mainColor):Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black,fontSize: 17) ,
+                          //   labels: provider.categoryList,
+                          //   defaultActiveItem: 0,
+                          //   onChange: (index) {
+                          //     provider.setSelectedCategory(
+                          //         categoryTxt: provider.categoryList![index],
+                          //         branch: widget.branchName);
+                          //     debugPrint('${DummyData.filteredChocoList}');
+                          //     // setState(() {});
+                          //   },
+                          // ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          DummyData.chocoList.isNotEmpty
+                              ? Expanded(
+                                  child: GridView.builder(
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) => Item(
+                                        index: index,
+                                        chocoItem: DummyData
+                                            .chocoList[index]),
+                                    itemCount:
+                                        DummyData.chocoList.length,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: itemsCount,
+                                      mainAxisSpacing: 10,
+                                      childAspectRatio: 0.7,
+                                      crossAxisSpacing: 10,
                                     ),
-                                  )
-                                : Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.30,
-                                      ),
-                                      const Center(
-                                          child: Text(
-                                              'No Items For This Category !')),
-                                    ],
                                   ),
-                          ],
-                        ),
-                      )
-                    : const Center(child: CircularProgressIndicator())),
-          ),
+                                )
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.30,
+                                    ),
+                                    const Center(
+                                        child: Text(
+                                            'No Items For This Category !')),
+                                  ],
+                                ),
+                        ],
+                      ),
+                    )
+                  : const Center(child: CircularProgressIndicator())),
         ));
   }
 }

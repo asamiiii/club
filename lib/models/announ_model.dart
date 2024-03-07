@@ -1,19 +1,37 @@
-class Announcment {
+class Requests {
   String? id;
-  String? txt;
-  String? branch;
+  String? username;
+  String? phone;
+  String? email;
+  String? age;
+  String? education;
 
-  Announcment({this.id, this.txt,this.branch});
+  Requests(
+      {this.id,
+      this.username,
+      this.email,
+      this.phone,
+      this.age,
+      this.education});
 
-  factory Announcment.fromJson(Map<String, dynamic> map) {
-    return Announcment(id: map['id'] ?? '', txt: map['txt'] ?? '',branch: map['branch']);
+  factory Requests.fromJson(Map<String, dynamic> map) {
+    return Requests(
+      id: map['id'] ?? '',
+      username: map['username'],
+      phone: map['email'],
+      age: map['age'],
+      education: map['education']
+      );
   }
 
-     Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
-      'txt':txt,
-      'branch':branch
+      'username': username,
+      'phone': phone,
+      'email': email,
+      'age': age,
+      'education': education,
     };
   }
 }

@@ -2,27 +2,14 @@ class ItemModel{
   String? id ;
   String? name;
   String? discription;
-  String? price;
-  String? category;
-  String? branch;
-  String? discount;
-  String? ingredients;
   String? image;
-  String? imagesList;
-  String? nutritionDeclaration;
+  
 
   ItemModel({
     this.id,
     this.name,
     this.image,
-    this.imagesList,
     this.discription,
-    this.category,
-    this.branch,
-    this.price,
-    this.discount,
-    this.ingredients,
-    this.nutritionDeclaration
   });
   
   
@@ -31,14 +18,14 @@ class ItemModel{
       'id': id,
       'name': name,
       'image': image,
-      'imagesList':imagesList,
+      // 'imagesList':imagesList,
       'discription': discription,
-      'category':category,
-      'branch':branch,
-      'price':price,
-      'discount': discount,
-      'ingredients':ingredients,
-      'nutritionDeclaration':nutritionDeclaration
+      // 'category':category,
+      // 'branch':branch,
+      // 'price':price,
+      // 'discount': discount,
+      // 'ingredients':ingredients,
+      // 'nutritionDeclaration':nutritionDeclaration
     };
   }
 
@@ -47,14 +34,14 @@ class ItemModel{
       id: map['id'] ?? '',
       name: map['name'] ??'',
       image:map['image'] ??'',
-      imagesList: map['imagesList']??'',
+      // imagesList: map['imagesList']??'',
       discription:map['discription'] ??'',
-      category:map['category'] ??'',
-      branch:map['branch'] ??'',
-      price:map['price'] ??'',
-      discount:map['discount'] ??'',
-      ingredients:map['ingredients'] ??'',
-      nutritionDeclaration:map['nutritionDeclaration'] ,
+      // category:map['category'] ??'',
+      // branch:map['branch'] ??'',
+      // price:map['price'] ??'',
+      // discount:map['discount'] ??'',
+      // ingredients:map['ingredients'] ??'',
+      // nutritionDeclaration:map['nutritionDeclaration'] ,
     );
   }
   }

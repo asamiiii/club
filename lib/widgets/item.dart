@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:club/item_detailes/item_det.dart';
 
 import 'package:club/models/item_model.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 // ignore: must_be_immutable
 class Item extends StatelessWidget {
@@ -13,11 +15,11 @@ class Item extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //                 context,
-        //                 MaterialPageRoute(
-        //                   builder: (context) =>  ChocoDetailes(chocoItem: chocoItem),
-        //                 ));
+        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  ChocoDetailes(chocoItem: chocoItem),
+                        ));
       },
       child: Stack(
         children: [
@@ -30,7 +32,7 @@ class Item extends StatelessWidget {
                   bottomRight: Radius.circular(40),
                   topLeft: Radius.circular(10)),
               child: Container(
-                color: Colors.amberAccent,
+                color: HexColor('#d5a43b'),
                 height: 220,
                 width: 190,
               ),
@@ -86,18 +88,6 @@ class Item extends StatelessWidget {
                 ],
               )),
 
-              chocoItem?.discount! != '' ? Positioned(
-                bottom: 20,
-                right: 5,
-                child: Container(
-                height: 30,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(25)
-                ),
-                child: Text('${chocoItem?.discount}',textAlign: TextAlign.center,style: const TextStyle(color: Colors.white),),
-              )):const SizedBox()
         ],
       ),
     );
