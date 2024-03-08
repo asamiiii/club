@@ -1,7 +1,7 @@
 // ignore: must_be_immutable
 import 'package:club/item_detailes/widgets.dart/image_datails.dart';
 import 'package:club/item_detailes/widgets.dart/textf.dart';
-import 'package:club/models/announ_model.dart';
+import 'package:club/models/req_model.dart';
 import 'package:club/models/item_model.dart';
 import 'package:club/providers.dart/provider.dart';
 import 'package:flutter/material.dart';

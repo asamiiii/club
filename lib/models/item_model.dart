@@ -18,14 +18,7 @@ class ItemModel{
       'id': id,
       'name': name,
       'image': image,
-      // 'imagesList':imagesList,
       'discription': discription,
-      // 'category':category,
-      // 'branch':branch,
-      // 'price':price,
-      // 'discount': discount,
-      // 'ingredients':ingredients,
-      // 'nutritionDeclaration':nutritionDeclaration
     };
   }
 
@@ -34,14 +27,7 @@ class ItemModel{
       id: map['id'] ?? '',
       name: map['name'] ??'',
       image:map['image'] ??'',
-      // imagesList: map['imagesList']??'',
       discription:map['discription'] ??'',
-      // category:map['category'] ??'',
-      // branch:map['branch'] ??'',
-      // price:map['price'] ??'',
-      // discount:map['discount'] ??'',
-      // ingredients:map['ingredients'] ??'',
-      // nutritionDeclaration:map['nutritionDeclaration'] ,
     );
   }
   }

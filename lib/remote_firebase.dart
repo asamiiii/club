@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:club/dummy_data.dart';
-import 'package:club/models/announ_model.dart';
+import 'package:club/models/req_model.dart';
 import 'package:club/models/item_model.dart';
 import 'package:flutter/foundation.dart';
 // import 'package:path/path.dart' as p;
@@ -21,16 +21,13 @@ class FirebaseHelper {
   }
 
   static Future getItemsFromFirestore() async {
-    DummyData.chocoList.clear();
+    DummyData.clubsList.clear();
     var querySnapshot = await getInvoiceCollection().get();
     // Get data from docs and convert map to List
     for (var element in querySnapshot.docs) {
-      DummyData.chocoList.add(element.data() as ItemModel);
+      DummyData.clubsList.add(element.data() as ItemModel);
     }
-    debugPrint('Firebase :${DummyData.chocoList}');
-    // handleCategoryItemsList(branchName: branch);
-    // handleBranchesItemsList(branchName: branch);
-    // return querySnapshot;
+    debugPrint('Firebase :${DummyData.clubsList}');
   }
   //* ------ Announcment Services ------- *//
 

@@ -1,21 +1,23 @@
 import 'package:club/home.dart';
-import 'package:club/register.dart';
+import 'package:club/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 List<String> passList = ['123', '321', '987', '423'];
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegScreen extends StatefulWidget {
+  const RegScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<RegScreen> {
   TextEditingController codeController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  TextEditingController confirmpassController = TextEditingController();
 
   @override
   void initState() {
@@ -84,60 +86,57 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 20,
               ),
+              SizedBox(
+                width: screenWidth * 0.75,
+                child: TextFormField(
+                  key: const Key('conPass'),
+                  keyboardType: TextInputType.emailAddress,
+                  controller: confirmpassController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Confirm Password',
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               ElevatedButton(
                 onPressed: () async {
-                  // var provider = context.read<MainProvider>();
-
-                  // provider.handleBranchesItemsList();
-
-                  // if(provider.branches.contains(codeController.text.trim())){
-                  //    await CacheHelper.addStringToCache(key: 'branch', value:codeController.text.trim());
-                  //   provider.handleCategoryItemsList();
-                  //   // provider.setSelectedCategory(branch:codeController.text,categoryTxt: provider.categoryList?[0] );
-                  //   // ignore: use_build_context_synchronously
-                  // if (passList.contains(passController.text) &&
-                  //     codeController.text.isNotEmpty) {
-                  //   Navigator.pushReplacement(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) => const Home(),
-                  //       ));
-                  // } else {
-                  //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  //       content: Center(child: Text("Login failed"))));
-                  // }
-
-                  // }
-                  // else{
-                  //   ScaffoldMessenger.of(context).showSnackBar(
-                  //     const SnackBar(content: Center(child: Text("Login failed"))));
-                  // }
-
-                  // showLoading(context, 'محاولة التسجيل');
-                  bool user = await userLogin(
-                      context: context,
-                      emailAddress: codeController.text,
-                      password: passController.text);
-
+                  if(passController.text==confirmpassController.text){
+                        debugPrint("press signup");
+                  // showLoading(context, 'جاري تسجيل حسابك');
+                   ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Center(child: Text("Loading"))));
+                  bool user = await userReg(
+                      context, codeController.text, passController.text);
+                  //hideLoading(context);
                   if (user != false) {
                     // ignore: use_build_context_synchronously
                     // hideLoading(context);
-                    // FirebaseHelper.collectionName= emailcon.text;
-                    // CashHelper.addToLocal(emailcon.text);
                     // ignore: use_build_context_synchronously
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const Home(),
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
                     ));
+                    // ignore: use_build_context_synchronously
+                    //hideLoading(context);
+                    // showSnakBarSuccess(context,
+                    //     'تم التسجيل بنجاح', greenColor);
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Center(child: Text("Login Successfully"))));
+                        content: Center(child: Text("Registred Successfully"))));
                   }
-                  //hideLoading(context);
+                  }else{
+                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Center(child: Text("The Password not Compatible with Confirmed Password"))));
+                  }
+                  
                 },
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Colors.amberAccent)),
                 child: Text(
-                  'Login',
+                  'Register',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
@@ -149,10 +148,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RegScreen(),
+                          builder: (context) => const LoginScreen(),
                         ));
                   },
-                  child: Text('Registeration'))
+                  child: Text('Login'))
             ],
           ),
         ),
@@ -162,31 +161,38 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 FirebaseAuth credential = FirebaseAuth.instance;
-Future<bool> userLogin(
-    {required BuildContext context,
-    required String emailAddress,
-    required String password}) async {
-  //bool user =false ;
+Future<bool> userReg(
+    BuildContext context, String emailAddress, String password) async {
+  debugPrint('context : $context');
+
   try {
-    await credential.signInWithEmailAndPassword(
-        email: emailAddress, password: password);
+    await credential.createUserWithEmailAndPassword(
+      email: emailAddress.trim(),
+      password: password,
+    );
+    //debugPrint('Success');
+    //alertDialog(context,'Success','');
+
     return true;
   } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
+    if (e.code == 'weak-password') {
+      debugPrint('The password provided is too weak.');
+      //const Center(child: Text('knkjhljh'));
       // hideLoading(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Center(child: Text("Login failed"))));
-      // hideLoading(context);
-      debugPrint('No user found for that email.');
+      // alertDialog(
+      //     context: context,
+      //     title: AppStrings.weekPassword,
+      //     desc: AppStrings.weekPasswordDesc);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Center(child: Text("The Password Week"))));
       return false;
-    } else if (e.code == 'wrong-password') {
+    } else if (e.code == 'email-already-in-use') {
+      debugPrint('The account already exists for that email.');
+      //const Center(child: Text('knkjhljh'));
       // hideLoading(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Center(child: Text("Login failed"))));
-      //hideLoading(context);
-      debugPrint('Wrong password provided for that user.');
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Center(child: Text("Wrong password "))));
+      // alertDialog(context: context, title: AppStrings.emailIsExist, desc: '');
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Center(child: Text("This E-mail is already exist !"))));
       return false;
     }
     else if(e.code=='invalid-email'){
@@ -194,11 +200,16 @@ Future<bool> userLogin(
           const SnackBar(content: Center(child: Text("invalid-email"))));
           return false;
     }
-    //hideLoading(context);
+  } catch (e) {
+    debugPrint('error ------> $e');
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Center(child: Text("Problem"))));
     return false;
-  }catch(e){
-        ScaffoldMessenger.of(context).showSnackBar(
-           SnackBar(content: Center(child: Text(e.toString()))));
-           return false;
+
+    // ignore: dead_code
+    // hideLoading(context);
+    // alertDialog(context:context,title: AppStrings.emailIsExist,desc: e.toString());
+    
   }
+  return false;
 }

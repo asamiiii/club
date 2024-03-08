@@ -1,4 +1,4 @@
-import 'package:club/models/announ_model.dart';
+import 'package:club/models/req_model.dart';
 import 'package:club/remote_firebase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
